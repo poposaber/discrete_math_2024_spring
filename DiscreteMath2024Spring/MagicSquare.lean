@@ -1,8 +1,10 @@
 import Mathlib.Data.PNat.Notation
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+import Mathlib.Algebra.Order.BigOperators.Group.Finset
 
 open Nat
 open BigOperators
+open Finset
 
 lemma sub_fin_lt (n : ℕ+) (m : ℕ) : n - 1 - m < n := by
   calc n - 1 - m
@@ -14,14 +16,14 @@ lemma sub_left_eq {k m n : ℕ} (h₁ : k - m = k - n) (h₂ : m ≤ k) (h₃ : 
   rw [h₁] at this
   apply Nat.add_left_cancel this
 
-lemma sum_sub' {n : ℕ+} {f : Fin n → ℕ} {a : ℕ} (h : ∀ m, f m ≤ a) : ∑ x, (a - f x) = (∑ (x : Fin n), a) - ∑ x, f x := by
+lemma sum_sub' {n : ℕ+} {f : Fin n → ℕ} {a : ℕ} (h : ∀ m, f m ≤ a) : ∑ x, (a - f x) = (∑ (_ : Fin n), a) - ∑ x, f x := by
   have : ∑ x, f x ≤ (∑ (_ : Fin n), a) := by
     apply sum_le_sum
     intro i _
     exact h i
   symm
   rw [Nat.sub_eq_iff_eq_add this]
-  rw [← sum_add_distrib]
+  rw [← Finset.sum_add_distrib]
   congr
   ext x
   exact (Nat.sub_eq_iff_eq_add (h x)).mp rfl
@@ -60,9 +62,9 @@ example : MagicSquare n where
     have : A i₁ j₁ = A i₂ j₂ := sub_left_eq h (le1 i₁ j₁) (le1 i₂ j₂)
     apply A.inj i₁ j₁ i₂ j₂ this
   sum_eq := by
-    simp
     rcases A.sum_eq with ⟨s, hs₁, hs₂, hs₃, hs₄⟩
     use n * (n ^ 2 + 1) - s
+    simp
     have le1 : ∀ i j,  A i j ≤ (n : ℕ) ^ 2 + 1 := by
       intro i j
       calc A i j

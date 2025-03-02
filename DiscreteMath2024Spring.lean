@@ -1,3 +1,3 @@
--- This module serves as the root of the `DiscreteMath2024Spring` library.
--- Import modules here that should be built as part of the library.
-import «DiscreteMath2024Spring».Basic
+import DiscreteMath2024Spring.Basic
+import DiscreteMath2024Spring.MagicSquare
+import DiscreteMath2024Spring.VariousInduction
