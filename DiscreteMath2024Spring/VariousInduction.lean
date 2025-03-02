@@ -55,3 +55,21 @@ theorem double_ind {p : ℕ → ℕ → Prop} (hm : ∀ m, p m 0) (hn : ∀ n, p
     induction' n with n hdn
     · apply hm
     · apply hind m n hdn (hdm (n + 1))
+
+theorem double_ind' {p : ℕ → ℕ → Prop} (hm : ∀ m, p m 0) (hn : ∀ n, p 0 n)
+    (hind : ∀ m n, p (m + 1) n → p m (n + 1) → p (m + 1) (n + 1)) : ∀ m n, p m n := by
+  refine Nat.rec ?_ ?_
+  · exact hn
+  · intro n hdn
+    refine Nat.rec ?_ ?_
+    · apply hm
+    · intro n₁ hn₁
+      apply hind n n₁ hn₁ (hdn n₁.succ)
+
+theorem double_ind'' {p : ℕ → ℕ → Prop} (hm : ∀ m, p m 0) (hn : ∀ n, p 0 n)
+    (hind : ∀ m n, p (m + 1) n → p m (n + 1) → p (m + 1) (n + 1)) : ∀ m n, p m n := by
+  refine Nat.rec ?_ (fun m hdm ↦ ?_)
+  · exact hn
+  · refine Nat.rec ?_ (fun n hdn ↦ ?_)
+    · apply hm
+    · apply hind m n hdn (hdm (n + 1))
