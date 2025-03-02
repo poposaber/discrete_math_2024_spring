@@ -1,3 +1,9 @@
+import Mathlib.Data.PNat.Notation
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+
+open Nat
+open BigOperators
+
 lemma sub_fin_lt (n : ℕ+) (m : ℕ) : n - 1 - m < n := by
   calc n - 1 - m
   _ ≤ n - 1 := Nat.sub_le (n - 1) m
